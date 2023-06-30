@@ -1,0 +1,97 @@
+@import 'reset.scss';
+
+@font-face {
+  font-family: 'MingLiU';
+  src: url('./MingLiU.eot');
+  src: url('./MingLiU.eot?#iefix') format('embedded-opentype'),
+      url('./MingLiU.woff2') format('woff2'),
+      url('./MingLiU.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+  
+  
+/* Root */
+:root {
+  --mingliu: 'MingLiU';
+  --siberia-blue: #B6FFFE;
+  --black: #00241D;
+  --dark-grey: #555555;
+  --white: #ffffff;
+  --red: #FF0000;
+  --blue: #403F8B;
+  --light-blue: #B6FFFE;
+  --light-grey: #888888;
+  --thin: 1100px;
+  --border-blk: 1px solid var(--black);
+  --side-padding: 12px;
+}
+
+body {
+  font-family: 'Times New Roman', serif;
+  font-weight: 400;
+  letter-spacing: 0px;
+  font-size: 100%;
+  line-height: 1;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+main.page-container {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  padding: 0 12px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Times New Roman', serif;
+  font-weight: normal;
+  font-style: normal;
+}
+
+p {
+  font-family: 'Times New Roman', serif;
+}
+
+img {
+  z-index: 1;
+}
+
+@keyframes popUp {
+  0% { transform: translateY(100%); }
+  100% { transform: translateY(0px); }
+}
+
+@import './navbar.scss';
+@import './404.scss';
+@import './footer-menu.scss';
+@import './cart-overlay.scss';
+
+@import './home/hero.scss';
+@import './home/shop.scss';
+@import './home/about.scss';
+@import './home/marquee.scss';
+@import './home/newsletter-modal.scss';
+
+@import './shop/single-product.scss';
+@import './shop/swiper.scss';
+@import './shop/size-chart.scss';
+
+@import './pages/lookbook.scss';
+@import './pages/contact.scss';
+
+.page-component {
+  display: none;
+  width: 100%;
+  min-height: 100vh;
+  max-width: var(--thin);
+  margin: 0 auto;
+}
+
+.color-swatch {
+  width: 16px;
+  height: 16px;
+  aspect-ratio: 1/1;
+  display: block;
+}

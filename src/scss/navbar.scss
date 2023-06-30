@@ -1,0 +1,54 @@
+.throne--navbar {
+
+    width: 100%;
+    max-width: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 9;
+    display: flex;
+    justify-content: center;
+
+    .navbar-wrapper {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+        max-width: var(--thin);
+        padding: 10px 0;
+    }
+
+    img {
+        width: 100%;
+    }
+
+    .logo {
+        padding-left: 0px;
+    }
+    .logo img {
+        max-width: 120px;
+    }
+
+    .hamburger {
+        padding-right: 0px;
+        cursor: pointer;
+    }
+    .hamburger img {
+        max-width: 64.4px;
+    }
+
+}
+
+@media screen and (max-width: 767px) {
+
+    .throne--navbar {
+        .logo {
+            padding-left: 20px;
+        }
+        .hamburger {
+            padding-right: 10px;
+        }
+    }
+
+}

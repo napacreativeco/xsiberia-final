@@ -1,0 +1,91 @@
+.contact-page {
+
+    .contact-page-wrapper {
+        padding: 140px 0 80px 0;
+        width: 100%;
+        max-width: var(--thin);
+        margin: 0 auto;
+
+        form#ContactForm {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 350px;
+            width: 100%;
+        }
+
+        .contact-form-title {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .field {
+            display: flex;
+            align-items: center;
+        }
+
+        label {
+            display: none;
+            font-size: 16px;
+            padding: 0;
+            color: var(--light-grey);
+            text-transform: lowercase;
+            visibility: hidden;
+            width: 0px;
+            height: 0px;
+            overflow: hidden;
+        }
+        input,
+        textarea,
+        select {
+            width: 100%;
+            border: var(--border-blk);
+            font-family: inherit;
+            font-size: 16px;
+            padding: 6px;
+            color: var(--light-grey);
+            border-radius: 0px !important;
+        }
+
+        select {
+            background: transparent;
+        }
+        
+        input {
+            height: 100%;
+        }
+
+        label[for="ContactForm-body"] { display: none; }
+
+        .field-holder {
+            width: 100%;
+        }
+        .field-holder.half-width {
+            // width: 50%;
+        }
+
+        .grouped-fields {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 20px;
+        }
+
+        .contact__button {
+            button {
+                border: var(--border-blk);
+                color: var(--black);
+                padding: 10px 20px;
+                text-transform: uppercase;
+                font-size: 16px;
+                letter-spacing: 0px;
+            }
+            button[aria-disabled="true"] {
+                background-color: var(--light-grey);
+                color: var(--white);
+            }
+        }
+
+        
+    }
+
+}

@@ -1,0 +1,450 @@
+<script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
+
+<div class="cart-overlay" data-displayed="true">
+
+    <div class="cart-header">
+        <div class="cart-name">
+            <h1>Cart</h1>
+        </div>
+        <div class="cart-logo">
+            <img src="{{ 'outline-logo.svg' | asset_url }}" alt="{{ 'Cart' | escape }}" />
+        </div>
+    </div>
+    <div class="cart-overlay-wrapper"  data-ajax-cart-section>
+
+
+        {%- if cart == empty -%}
+
+            <div class="empty-cart">
+
+                <div class="cart-drawer__warnings center{% if settings.cart_drawer_collection != blank %} cart-drawer__warnings--has-collection{% endif %}">
+
+                    <div class="cart-drawer__empty-content">
+                        <h2 class="cart__empty-text">{{ 'sections.cart.empty' | t }}</h2>
+
+                        <div class="continue-shopping">
+                            <a href="{{ routes.all_products_collection_url }}">
+                                {{ 'general.continue_shopping' | t }}
+                            </a>
+                        </div>
+
+                        {%- if shop.customer_accounts_enabled and customer == null -%}
+                            <p class="cart__login-title h3">{{ 'sections.cart.login.title' | t }}</p>
+                            <p class="cart__login-paragraph">{{ 'sections.cart.login.paragraph_html' | t: link: routes.account_login_url }}</p>
+                        {%- endif -%}
+                    </div>
+
+                </div>
+
+                {%- if settings.cart_drawer_collection != blank -%}
+                    <div class="cart-drawer__collection">
+                        {% render 'card-collection', card_collection: settings.cart_drawer_collection, columns: 1 %}
+                    </div>
+                {%- endif -%}
+
+            </div>
+        
+        {%- else -%}
+
+            <div class="cart">
+                
+                {% comment %} ITEMS {% endcomment %}
+                <cart-drawer-items class="cart-items-holder desktop" {% if cart == empty %} class="is-empty" {% endif %}>
+                    <form id="add-to-cart-form" action="{{ routes.cart_url }}" method="post" data-ajax-cart-section>
+                     
+                        {%- if cart != empty -%}
+                            
+                            <ul class="cart-items" data-ajax-cart-section-scroll>
+                                {%- for item in cart.items -%}
+
+                                    <li id="item-{{ item.index | plus: 1 }}" class="cart-item" role="row">
+                                        <div class="cart-item-wrapper">
+                                            
+                                            <div class="image">
+                                                {% if item.image %}
+                                                    {% comment %} Leave empty space due to a:empty CSS display: none rule {% endcomment %}
+                                                    <a href="{{ item.url }}" class="cart-item__link" tabindex="-1" aria-hidden="true"> </a>
+                                                    <img class="cart-item__image" src="{{ item.image | image_url: width: 300 }}" alt="{{ item.image.alt | escape }}" loading="lazy" width="150" height="{{ 150 | divided_by: item.image.aspect_ratio | ceil }}">
+                                                {% endif %}
+                                            </div>
+    
+                                            <div class="product-title">
+                                                <a href="{{ item.url }}">
+                                                    <span class="vendor">{{ item.product.vendor }}</span>
+                                                    <span class="product">{{- item.product.title | escape -}}</span>
+                                                </a>
+                                            </div>
+
+                                            <div class="quantity" role="cell">
+                                                <div class="quantity-wrapper">
+    
+                                                        <button class="no-js-hidden" name="minus" type="button" data-ajax-cart-request-button>
+                                                            <span class="visually-hidden">{{- 'products.product.quantity.decrease' | t: product: item.product.title | escape -}}</span>
+                                                            {% render 'icon-minus' %}
+                                                        </button>
+    
+                                                        <input
+                                                            data-ajax-cart-quantity-input="{{ forloop.index }}"
+                                                            type="number"
+                                                            data-quantity-variant-id="{{ item.variant.id }}"
+                                                            name="updates[]"
+                                                            value="{{ item.quantity }}"
+                                                            {% # theme-check-disable %}
+                                                            data-cart-quantity="{{ cart | item_count_for_variant: item.variant.id }}"
+                                                            min="{{ item.variant.quantity_rule.min }}"
+                                                            {% if item.variant.quantity_rule.max != null %}
+                                                                max="{{ item.variant.quantity_rule.max }}"
+                                                            {% endif %}
+                                                            step="{{ item.variant.quantity_rule.increment }}"
+                                                            {% # theme-check-enable %}
+                                                            aria-label="{{ 'products.product.quantity.input_label' | t: product: item.product.title | escape }}"
+                                                            id="Drawer-quantity-{{ item.index | plus: 1 }}"
+                                                            data-index="{{ item.index | plus: 1 }}"
+                                                        >
+    
+                                                        <button class="no-js-hidden" name="plus" type="button" data-ajax-cart-request-button>
+                                                            <span class="visually-hidden">
+                                                                {{- 'products.product.quantity.increase' | t: product: item.product.title | escape -}}
+                                                            </span>
+                                                            {% render 'icon-plus' %}
+                                                        </button>
+                                                        
+                                                </div>
+    
+                                                <div id="CartDrawer-LineItemError-{{ item.index | plus: 1 }}" class="cart-item__error" role="alert">
+                                                    <small class="cart-item__error-text"></small>
+                                                    <svg aria-hidden="true" focusable="false" class="icon icon-error" viewBox="0 0 13 13">
+                                                        <circle cx="6.5" cy="6.50049" r="5.5" stroke="white" stroke-width="2"/>
+                                                        <circle cx="6.5" cy="6.5" r="5.5" fill="#EB001B" stroke="#EB001B" stroke-width="0.7"/>
+                                                        <path d="M5.87413 3.52832L5.97439 7.57216H7.02713L7.12739 3.52832H5.87413ZM6.50076 9.66091C6.88091 9.66091 7.18169 9.37267 7.18169 9.00504C7.18169 8.63742 6.88091 8.34917 6.50076 8.34917C6.12061 8.34917 5.81982 8.63742 5.81982 9.00504C5.81982 9.37267 6.12061 9.66091 6.50076 9.66091Z" fill="white"/>
+                                                        <path d="M5.87413 3.17832H5.51535L5.52424 3.537L5.6245 7.58083L5.63296 7.92216H5.97439H7.02713H7.36856L7.37702 7.58083L7.47728 3.537L7.48617 3.17832H7.12739H5.87413ZM6.50076 10.0109C7.06121 10.0109 7.5317 9.57872 7.5317 9.00504C7.5317 8.43137 7.06121 7.99918 6.50076 7.99918C5.94031 7.99918 5.46982 8.43137 5.46982 9.00504C5.46982 9.57872 5.94031 10.0109 6.50076 10.0109Z" fill="white" stroke="#EB001B" stroke-width="0.7">
+                                                    </svg>
+                                                </div>
+    
+                                            </div>  
+                                                
+                                            <div class="variants size">
+                                                {%- if item.product.has_only_default_variant == false
+                                                    or item.properties.size != 0
+                                                    or item.selling_plan_allocation != null
+                                                -%}
+                                                    
+                                                        {%- if item.product.has_only_default_variant == false -%}
+                                                            {%- for option in item.options_with_values -%}
+                                                                {% case option.name %}
+
+                                                                    {% when 'Size' %}
+                                                                        <span class="product-option">
+                                                                                {{ option.value -}}
+                                                                        </span>
+
+                                                                {% endcase %}
+                                                            {%- endfor -%}
+                                                        {%- endif -%}
+        
+                                                        {% comment %}  
+                                                            ** I don't know what this does yet
+
+                                                            {%- for property in item.properties -%}
+                                                                {%- assign property_first_char = property.first | slice: 0 -%}
+                                                                {%- if property.last != blank and property_first_char != '_' -%}
+                                                                    <div class="product-option">
+                                                                        <dt>{{ property.first }}:</dt>
+                                                                        <dd>
+                                                                        {%- if property.last contains '/uploads/' -%}
+                                                                            <a href="{{ property.last }}" class="link" target="_blank" aria-describedby="a11y-new-window-message">
+                                                                                {{ property.last | split: '/' | last }}
+                                                                            </a>
+                                                                        {%- else -%}
+                                                                            {{ property.last }}
+                                                                        {%- endif -%}
+                                                                        </dd>
+                                                                    </div>
+                                                                {%- endif -%}
+                                                            {%- endfor -%}
+            
+                                                            <p class="product-option">{{ item.selling_plan_allocation.selling_plan.name }}</p>
+                                                        {% endcomment %}
+                                                {%- endif -%}
+                                            </div>
+
+                                            <div class="variants color">
+                                                <div class="color-wrapper">
+                                                    <span class="color-swatch" style="background: {{ item.variant.metafields.custom.display_color.value }}">
+                                                        &nbsp;
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div class="edit">
+                                                <button>edit</button>
+                                            </div>
+
+                                            <div class="delete">
+                                                <a data-ajax-cart-request-button href="/cart/change?line={{ forloop.index }}&quantity=0" rel="{{ item.id }}">delete</a>                    
+                                            </div>
+
+                                        </div>
+
+                                        <div data-ajax-cart-messages="{{ item.key }}"></div>
+                                    </li>
+                                {%- endfor -%}                          
+                            </ul>
+
+                        {%- endif -%}
+
+                        <div class="accessibility">
+                            <p id="CartDrawer-LiveRegionText" class="visually-hidden" role="status"></p>
+                            <p id="CartDrawer-LineItemStatus" class="visually-hidden" aria-hidden="true" role="status">
+                                {{ 'accessibility.loading' | t }}
+                            </p>
+                        </div>
+
+                        <!-- Container for errors -->
+                        <div class="ajax-messages">
+                            <div data-ajax-cart-messages="{{ item.key }}"></div>
+                        </div>
+
+                        <div id="CartDrawer-CartErrors" role="alert"></div>
+                    </form>
+                </cart-drawer-items>
+
+                {% comment %} ITEMS MOBILE {% endcomment %}
+                <div class="cart-items-holder mobile">
+                    <form id="add-to-cart-form" action="{{ routes.cart_url }}" method="post" data-ajax-cart-section>
+                     
+                        {%- if cart != empty -%}
+                            
+                            <ul class="cart-items" data-ajax-cart-section-scroll>
+                                {%- for item in cart.items -%}
+
+                                    <li id="item-{{ item.index | plus: 1 }}" class="cart-item" role="row">
+                                        <div class="cart-item-wrapper">
+                                            
+                                            <div class="image">
+                                                {% if item.image %}
+                                                    {% comment %} Leave empty space due to a:empty CSS display: none rule {% endcomment %}
+                                                    <a href="{{ item.url }}" class="cart-item__link" tabindex="-1" aria-hidden="true"> </a>
+                                                    <img class="cart-item__image" src="{{ item.image | image_url: width: 300 }}" alt="{{ item.image.alt | escape }}" loading="lazy" width="150" height="{{ 150 | divided_by: item.image.aspect_ratio | ceil }}">
+                                                {% endif %}
+                                            </div>
+
+                                            <div class="data">
+
+                                                <div class="product-title">
+                                                    <a href="{{ item.url }}">
+                                                        <span class="vendor">{{ item.product.vendor }}</span>
+                                                        <span class="product">{{- item.product.title | escape -}}</span>
+                                                    </a>
+                                                </div>
+
+                                                <div class="variants size">
+                                                    {%- if item.product.has_only_default_variant == false
+                                                        or item.properties.size != 0
+                                                        or item.selling_plan_allocation != null
+                                                    -%}
+                                                        
+                                                            {%- if item.product.has_only_default_variant == false -%}
+                                                                {%- for option in item.options_with_values -%}
+                                                                    {% case option.name %}
+    
+                                                                        {% when 'Size' %}
+                                                                            <span class="product-option">
+                                                                                    {{ option.value -}}
+                                                                            </span>
+    
+                                                                    {% endcase %}
+                                                                {%- endfor -%}
+                                                            {%- endif -%}
+            
+                                                            {% comment %}  
+                                                                ** I don't know what this does yet
+    
+                                                                {%- for property in item.properties -%}
+                                                                    {%- assign property_first_char = property.first | slice: 0 -%}
+                                                                    {%- if property.last != blank and property_first_char != '_' -%}
+                                                                        <div class="product-option">
+                                                                            <dt>{{ property.first }}:</dt>
+                                                                            <dd>
+                                                                            {%- if property.last contains '/uploads/' -%}
+                                                                                <a href="{{ property.last }}" class="link" target="_blank" aria-describedby="a11y-new-window-message">
+                                                                                    {{ property.last | split: '/' | last }}
+                                                                                </a>
+                                                                            {%- else -%}
+                                                                                {{ property.last }}
+                                                                            {%- endif -%}
+                                                                            </dd>
+                                                                        </div>
+                                                                    {%- endif -%}
+                                                                {%- endfor -%}
+                
+                                                                <p class="product-option">{{ item.selling_plan_allocation.selling_plan.name }}</p>
+                                                            {% endcomment %}
+                                                    {%- endif -%}
+                                                </div>
+    
+                                                <div class="variants color">
+                                                    {%- if item.product.has_only_default_variant == false -%}
+                                                        {%- for option in item.options_with_values -%}
+                                                            {% case option.name %}
+
+                                                                {% when 'Color' %}
+                                                                    <span class="product-option">
+                                                                        {{ option.name }}: {{ option.value -}}
+                                                                    </span>
+
+                                                            {% endcase %}
+                                                        {%- endfor -%}
+                                                    {%- endif -%}
+                                                </div>
+                                                    
+                                                <div class="quantity" role="cell">
+                                                    <div class="quantity-wrapper">
+        
+                                                            <button class="no-js-hidden" name="minus" type="button" data-ajax-cart-request-button>
+                                                                <span class="visually-hidden">{{- 'products.product.quantity.decrease' | t: product: item.product.title | escape -}}</span>
+                                                                {% render 'icon-minus' %}
+                                                            </button>
+        
+                                                            <input
+                                                                data-ajax-cart-quantity-input="{{ forloop.index }}"
+                                                                type="number"
+                                                                data-quantity-variant-id="{{ item.variant.id }}"
+                                                                name="updates[]"
+                                                                value="{{ item.quantity }}"
+                                                                {% # theme-check-disable %}
+                                                                data-cart-quantity="{{ cart | item_count_for_variant: item.variant.id }}"
+                                                                min="{{ item.variant.quantity_rule.min }}"
+                                                                {% if item.variant.quantity_rule.max != null %}
+                                                                    max="{{ item.variant.quantity_rule.max }}"
+                                                                {% endif %}
+                                                                step="{{ item.variant.quantity_rule.increment }}"
+                                                                {% # theme-check-enable %}
+                                                                aria-label="{{ 'products.product.quantity.input_label' | t: product: item.product.title | escape }}"
+                                                                id="Drawer-quantity-{{ item.index | plus: 1 }}"
+                                                                data-index="{{ item.index | plus: 1 }}"
+                                                            >
+        
+                                                            <button class="no-js-hidden" name="plus" type="button" data-ajax-cart-request-button>
+                                                                <span class="visually-hidden">
+                                                                    {{- 'products.product.quantity.increase' | t: product: item.product.title | escape -}}
+                                                                </span>
+                                                                {% render 'icon-plus' %}
+                                                            </button>
+                                                            
+                                                    </div>
+        
+                                                    <div id="CartDrawer-LineItemError-{{ item.index | plus: 1 }}" class="cart-item__error" role="alert">
+                                                        <small class="cart-item__error-text"></small>
+                                                        <svg aria-hidden="true" focusable="false" class="icon icon-error" viewBox="0 0 13 13">
+                                                            <circle cx="6.5" cy="6.50049" r="5.5" stroke="white" stroke-width="2"/>
+                                                            <circle cx="6.5" cy="6.5" r="5.5" fill="#EB001B" stroke="#EB001B" stroke-width="0.7"/>
+                                                            <path d="M5.87413 3.52832L5.97439 7.57216H7.02713L7.12739 3.52832H5.87413ZM6.50076 9.66091C6.88091 9.66091 7.18169 9.37267 7.18169 9.00504C7.18169 8.63742 6.88091 8.34917 6.50076 8.34917C6.12061 8.34917 5.81982 8.63742 5.81982 9.00504C5.81982 9.37267 6.12061 9.66091 6.50076 9.66091Z" fill="white"/>
+                                                            <path d="M5.87413 3.17832H5.51535L5.52424 3.537L5.6245 7.58083L5.63296 7.92216H5.97439H7.02713H7.36856L7.37702 7.58083L7.47728 3.537L7.48617 3.17832H7.12739H5.87413ZM6.50076 10.0109C7.06121 10.0109 7.5317 9.57872 7.5317 9.00504C7.5317 8.43137 7.06121 7.99918 6.50076 7.99918C5.94031 7.99918 5.46982 8.43137 5.46982 9.00504C5.46982 9.57872 5.94031 10.0109 6.50076 10.0109Z" fill="white" stroke="#EB001B" stroke-width="0.7">
+                                                        </svg>
+                                                    </div>
+        
+                                                </div>  
+
+                                            </div>
+    
+                                            <div class="actions">
+                                                <div class="edit">
+                                                    <button>edit</button>
+                                                </div>
+    
+                                                <div class="delete">
+                                                    <a data-ajax-cart-request-button href="/cart/change?line={{ forloop.index }}&quantity=0" rel="{{ item.id }}">delete</a>                    
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div data-ajax-cart-messages="{{ item.key }}"></div>
+                                    </li>
+                                {%- endfor -%}                          
+                            </ul>
+
+                        {%- endif -%}
+
+                        <div class="accessibility">
+                            <p id="CartDrawer-LiveRegionText" class="visually-hidden" role="status"></p>
+                            <p id="CartDrawer-LineItemStatus" class="visually-hidden" aria-hidden="true" role="status">
+                                {{ 'accessibility.loading' | t }}
+                            </p>
+                        </div>
+
+                        <!-- Container for errors -->
+                        <div class="ajax-messages">
+                            <div data-ajax-cart-messages="{{ item.key }}"></div>
+                        </div>
+
+                        <div id="CartDrawer-CartErrors" role="alert"></div>
+                    </form>
+                </div>
+                
+                {% comment %} 
+                SUBTOTAL
+                {% endcomment %}
+                <div class="subtotal">
+                    <div class="subtotal-wrapper">
+                        <div class="left">
+                            <span>{{ 'Subtotal' | escape }}</span>
+                        </div>
+                        <div class="right">
+                            <span>{{ cart.total_price | money_with_currency }}</span>
+                        </div>
+                    </div>
+                </div>
+
+
+                {% comment %} 
+                BUTTONS
+                {% endcomment %}
+                <div class="buttons" {{ block.shopify_attributes }}>
+                    <noscript>
+                        <button type="submit" class="update-cart" form="CartDrawer-Form">
+                        {{ 'sections.cart.update' | t }}
+                        </button>
+                    </noscript>
+
+                    {% comment %} <button type="submit" class="checkout-button" name="checkout" form="CartDrawer-Form"  {% if cart == empty %} disabled{% endif %}>
+                        CHECKOUT ({{ cart.item_count }})
+                    </button> {% endcomment %}
+                    <a href="/checkout" type="submit" class="checkout-button" name="checkout" form="CartDrawer-Form"  {% if cart == empty %} disabled{% endif %}>
+                        CHECKOUT ({{ cart.item_count }})
+                    </a>
+                </div>
+            </div>
+
+        {%- endif -%}
+
+        {% render 'credit-cards' %}
+
+        <div class="cart-disclaimer">
+            <p>{{ 'For further details please consult the ' | escape }}<a href="/pages/returns/" title="Return Policy">{{ 'Return Policy' | escape }}</a></p>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      function isIE() {
+        const ua = window.navigator.userAgent;
+        const msie = ua.indexOf('MSIE ');
+        const trident = ua.indexOf('Trident/');
+  
+        return msie > 0 || trident > 0;
+      }
+  
+      if (!isIE()) return;
+      const cartSubmitInput = document.createElement('input');
+      cartSubmitInput.setAttribute('name', 'checkout');
+      cartSubmitInput.setAttribute('type', 'hidden');
+      document.querySelector('#cart').appendChild(cartSubmitInput);
+      document.querySelector('#checkout').addEventListener('click', function (event) {
+        document.querySelector('#cart').submit();
+      });
+    });
+  </script>

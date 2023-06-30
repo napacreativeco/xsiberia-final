@@ -1,0 +1,96 @@
+/* 
+* ===============
+* Newsletter Modal 
+* =============== 
+*/
+.shopify-section:has(.newsletter-modal) {
+  position: fixed;
+  float: left;
+  z-index: 9999;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(2px);
+
+  .newsletter-modal {
+
+    .newsletter-wrapper {
+      max-width: 420px;
+      background: var(--white);
+      border: 1px solid var(--black);
+
+      .action-bar {
+        background: var(--black);
+        color: var(--red);
+        text-align: left;
+        padding: 8px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        font-size: 0.9rem;
+
+        .newsletter-close {
+          cursor: pointer;
+        }
+
+      }
+
+      .newsletter-body {
+        padding: 10px;
+
+        .warning {
+          text-align: center;
+          width: 100%;
+          font-size: 0.9rem;
+          padding: 10px 40px;
+        }
+
+      }
+
+      .newsletter-form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        form {
+          width: 100%;
+        }
+
+      }
+
+      input {
+        display: block;
+        background: var(--white);
+        color: var(--black);
+        border: 1px solid var(--black);
+        margin: 10px auto;
+      }
+
+      input[type="email"] {
+        width: 100%;
+        padding: 4px;
+        font-size: 0.8rem;
+        border-radius: 0px !important;
+      }
+
+      input[type="submit"] {
+        padding: 4px 14px;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        border-radius: 0px !important;
+      }
+
+    }
+  }
+
+}
+
+
+

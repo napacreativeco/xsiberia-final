@@ -1,0 +1,98 @@
+.lookbook-blog {
+
+    .lookbook-blog-wrapper {
+        padding: 100px 0;
+        width: 100%;
+        max-width: var(--thin);
+        margin: 0 auto;
+        overflow-x: hidden;
+
+        /* Header */
+        .selector-holder {
+            display: inline-flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            gap: 6px;
+            border: 0px;
+            position: relative;
+            z-index: 3;
+            transform: translateY(28px);
+            
+
+            select::-ms-expand {
+                display: none;
+            }
+
+            select {
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                border: 0px;
+                font-size: 14px;
+                font-family: inherit;
+                width: auto;
+                padding-right: 10px;
+                cursor: pointer;
+            }
+
+            .icon {
+                position: absolute;
+                top: 50%;
+                right: 0px;
+                transform: translateY(-50%);
+                pointer-events: none;
+
+                svg { 
+                    width: 20px;
+                }
+            }
+        }
+
+        /* Post */
+        .swiper {
+            padding-top: 20px;
+        }
+
+        .swiper-wrapper {
+            padding-top: 15px;
+        }
+        
+        .swiper-header {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            align-items: flex-end;
+        }
+
+        .swiper-slide {
+            width: 100%;
+            display: grid;
+            grid-template-rows: 6fr 2fr;
+            height: 94vh;
+        }
+
+        .swiper-pagination {
+            position: relative;
+            text-align: right;
+        }
+
+        article.article-component {
+            display: none;
+        }
+        article.article-component:first-of-type {
+            display: block;
+        }
+
+    }
+
+}
+
+.lookbook-page {
+    padding-top: 140px;
+    width: 100%;
+    max-width: var(--thin);
+    margin: 0 auto;
+}
+
+.lookbook-section {
+    // display: none;
+}

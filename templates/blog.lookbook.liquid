@@ -1,0 +1,140 @@
+<div class="blog-container lookbook-blog">
+    <div class="lookbook-blog-wrapper">
+
+        <div class="selector-holder">
+            <select class="resizeselect collection-selector">
+                {%- for post in blog.articles -%}
+                    <option value="{{ post.id }}">{{ post.title }}</option>
+                {% endfor %}
+            </select>
+            <div class="icon">
+                {% render 'icon-caret' %}
+            </div>
+        </div>
+
+
+        {%- for article in blog.articles -%}
+
+            <article class="article-component" data-handle="{{ article.id }}" data-title="{{ article.title }}">
+                <div class="swiper-{{ forloop.index }} swiper">
+
+                    <div class="swiper-header">
+                        <span style="visibility: hidden">{{ article.title }}</span>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                    
+                    <div class="swiper-wrapper">
+                        {% for metaobject in shop.metaobjects['lookbook'].values %}
+                
+                            <div class="swiper-slide" data-index="{{ forloop.index }}">
+                                <div class="image" style="background: url('{{ metaobject.image | image_url }}'); background-size: cover; background-position: center center;">
+                                    &nbsp;
+                                </div>
+                                <div class="caption">
+                                    <div class="caption-wrapper">
+                                        {{ metaobject.caption | metafield_tag }}
+                                    </div>
+                                </div>
+                            </div>
+                
+                        {% endfor %}
+                    </div>
+                
+                
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                </div>
+            </article>       
+            
+
+            <script type="module">
+                import Swiper from 'https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.esm.browser.min.js'
+
+                const swiper = new Swiper('.swiper-{{ forloop.index }}', {
+                    // Optional parameters
+                    direction: 'horizontal',
+                    loop: true,
+                    
+                    // If we need pagination
+                    pagination: {
+                        el: '.swiper-pagination',
+                        type: 'fraction',
+                        clickable: true
+                    },
+                    
+                    // Navigation arrows
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    }
+                });
+            </script>
+
+
+
+        {% endfor %}
+
+    </div>
+</div>
+
+
+<script>
+
+    (function($) {
+        $('.collection-selector').on('change', function() {
+            var selectedValue = $(this).find('option:selected').attr('value');
+            console.log('selected value: ' + selectedValue);
+
+            $('.article-component').css('display', 'none');
+            $('[data-handle="' + selectedValue + '"]').css('display', 'block');
+            
+        });
+
+    })(jQuery);
+</script>
+
+<script>
+
+    (function($, window){
+        $(function() {
+          let arrowWidth = 30;
+      
+          $.fn.resizeselect = function(settings) {  
+            return this.each(function() { 
+      
+              $(this).change(function(){
+                let $this = $(this);
+      
+                // get font-weight, font-size, and font-family
+                let style = window.getComputedStyle(this)
+                let { fontWeight, fontSize, fontFamily } = style
+      
+                // create test element
+                let text = $this.find("option:selected").text();
+                let $test = $("<span>").html(text).css({
+                  "font-size": fontSize, 
+                  "font-weight": fontWeight, 
+                  "font-family": fontFamily,
+                  "visibility": "hidden" // prevents FOUC
+                });
+      
+                // add to body, get width, and get out
+                $test.appendTo($this.parent());
+                let width = $test.width();
+                $test.remove();
+      
+                // set select width
+                $this.width(width + arrowWidth);
+      
+                // run on start
+              }).change();
+      
+            });
+          };
+      
+          // run by default
+          $("select.resizeselect").resizeselect();                       
+        })
+      })(jQuery, window);
+
+</script>

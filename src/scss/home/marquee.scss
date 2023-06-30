@@ -1,0 +1,82 @@
+.marquee-holder {
+    background: var(--light-blue);
+    position: fixed;
+    z-index: 999;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    max-width: 100%;
+    padding: 10px 0;
+
+    .wrapper {
+      min-width: 100%;
+      max-width: 100%;
+      background: transparent;
+      position: relative;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+    
+    .carousel {
+      background: transparent;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .box {
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      padding: 0;
+      position: relative;
+      flex-shrink: 0;
+      color: black;
+      font-size: 21px;
+      cursor: pointer;
+      font-family: var(--mingliu);
+    }
+    .box.active {
+      color: white;
+      border: 2px solid white;
+    }
+    
+    .prev {
+      position: absolute;
+      top: 10%;
+      left: 15%;
+    }
+    .next {
+      position: absolute;
+      top: 10%;
+      right: 15%;
+    }
+    button {
+      padding: 1rem 2rem 1rem 2rem;
+      border: none;
+      background: #555;
+      color: white;
+      text-transform: uppercase;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .toggle {
+      position: absolute;
+      top: 10%;
+    }
+    
+    .show-overflow {
+      overflow: visible;
+    }
+    
+}
+

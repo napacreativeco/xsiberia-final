@@ -1,0 +1,43 @@
+<div class="footer-menu">
+
+    <div class="footer-menu-wrapper">
+
+        <div class="filter-menu">
+            <div class="filter-menu-wrapper">
+                <div class="top">
+                    <ul>
+                        <li><a href="">shop</a></li>
+                        <li><a href="">about</a></li>
+                        <li><a href="">contact</a></li>
+                        <li><a href="">sound</a></li>
+                        <li><a href="">lookbook</a></li>
+                    </ul>
+                </div>
+                <div class="filters">
+                    <ul>
+                        {% for link in linklists.shop-menu.links %}
+                          <li class="{% if link.active or parent_link_active %} active{% endif %}{% if forloop.first %} first{% elsif forloop.last %} last{% endif %}">
+                            <a href="{{ link.url }}">{{ link.title }}</a> 
+                          </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="bottom">
+                    <div class="terms-link">
+                        <a href="/pages/terms" title="Terms">Terms</a>
+                    </div>
+                    <div class="policy-link">
+                        <a href="/pages/policy" title="Policy / Questions">Policy / Questions</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="plus">
+            <div class="icon">
+                <img src="{{ 'cross.svg' | asset_url }}" alt="Filters" />
+            </div>
+        </div>
+    </div>
+
+
+</div>

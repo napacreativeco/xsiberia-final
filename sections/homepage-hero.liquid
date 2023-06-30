@@ -1,0 +1,223 @@
+<section class="homepage-hero" onmousemove="coordinate(event)">
+
+  <div class="hero-image hero-image-desktop" style="background: url({{ section.settings.hero_background_desktop | image_url }}); background-size: cover; background-position: center center;">&nbsp;</div>
+  <div class="hero-image hero-image-mobile" style="background: url({{ section.settings.hero_background_mobile | image_url: width: 700 }}); background-size: cover; background-position: center center;">&nbsp;</div>
+
+  <div id="hero-wrapper" class="hero-wrapper">
+    <div class="left">
+
+        <div class="hero-logo">
+          <img src="{{ 'logo.svg' | asset_url }}" alt="Siberia" />
+        </div>
+    
+        <ul>
+          <li>
+            <span class="scroll-to-link hero-link" data-component="shop-component">
+              {{ 'Shop' | escape }}
+            </span>
+          </li>
+          <li>
+            <span class="scroll-to-link hero-link" data-component="about-component">
+              {{ 'About' | escape }}
+            </span>
+          </li>
+          <li>
+            <span class="scroll-to-link hero-link" data-component="contact-component">
+              {{ 'Contact' | escape }}
+            </span>
+          </li>
+          <li>
+            <span class="hero-link" data-component="lookbook-component" onclick="window.location='/blogs/lookbook';">
+              {{ 'Lookbook' | escape }}
+            </span>
+          </li>
+          <li></li>
+        </ul>
+
+    </div>
+
+    <div class="right movable-elements-wrapper">
+      
+      <div id="top-left" data-value="4" class="top-left floating-media element movable">
+        {{ section.settings.hero_top_left | video_tag: autoplay: true, loop: true, muted: true, controls: false }}
+      </div>
+
+      <div id="top-right" data-value="1" class="top-right floating-media element movable">
+        {{ section.settings.hero_top_right | video_tag: autoplay: true, loop: true, muted: true, controls: false }}
+      </div>
+
+      <div id="bottom-left" data-value="3" class="bottom-left floating-media element movable">
+        <img src="{{ section.settings.hero_bottom_left | image_url: width: 700 }}" alt="" />
+      </div>
+      
+      <div id="bottom-right" data-value="2" class="bottom-right floating-media element movable">
+        <img src="{{ section.settings.hero_bottom_right | image_url: width: 700 }}" alt="" />
+      </div>
+
+      <div id="cloud" class="cloud-holder">
+        <img src="{{ section.settings.hero_cloud | image_url }}" alt="" />
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<script>
+(function($) {
+  function hidePlus() {
+    document.querySelector('.plus').style.display = 'none';
+  }
+
+  function hideLogo() {
+    document.querySelector('.logo a').style.display = 'none';
+  }
+
+  function showPlus() {
+    document.querySelector('.plus').style.display = 'block';
+  }
+
+  function showLogo() {
+    document.querySelector('.logo a').style.display = 'block';
+  }
+
+
+  const mediaQuery = window.matchMedia('(max-width: 767px)');
+
+  // Hiding Marquee
+  window.addEventListener("scroll", () => {
+
+      if (window.scrollY > 100) {
+  
+          // Hide Marquee
+          gsap.to(".marquee-holder", {
+              y: 100,
+              delay: 0.6,
+              duration: 0.2,
+              onComplete: () => {
+                  gsap.to(".marquee-holder", { display: "none" });
+              }
+          });
+
+          showPlus();
+          showLogo();
+  
+      } else {
+  
+          // Show Marquee
+          gsap.to(".marquee-holder", {
+              y: 0,
+              delay: 0.6,
+              duration: 0.2,
+              onComplete: () => {
+                  gsap.to(".marquee-holder", { display: "block" });
+              }
+          });
+
+          hidePlus();
+          hideLogo();
+      }
+      
+  });
+
+  
+
+    
+})(jQuery)
+</script>
+
+<script src="{{ 'gsap-draggable.min.js' | asset_url }}"></script>
+<script>
+
+  function hidePlus() {
+    document.querySelector('.plus').style.display = 'none';
+  }
+
+  function hideLogo() {
+    document.querySelector('.logo a').style.display = 'none';
+  }
+
+  hidePlus();
+
+  const mediaQuery = window.matchMedia('(max-width: 767px)')
+
+  if (!mediaQuery.matches) {
+    hideLogo();
+
+    function coordinate(event) {
+      var x=event.clientX;
+      var y=event.clientY;
+      //document.getElementById("X").value=x;
+      //document.getElementById("Y").value=y;
+  
+      var topLeft = document.getElementById("top-left");
+      var topRight = document.getElementById("top-right");
+      var bottomLeft = document.getElementById("bottom-left");
+      var bottomRight = document.getElementById("bottom-right");
+      var cloud = document.getElementById("cloud");
+  
+      topRight.style.transform = 'translate(' + x / 20 + 'px, ' + y / 16 + 'px)';
+      topLeft.style.transform = 'translate(' + (-x / 20) + 'px, ' + (-y / 18) + 'px)';
+      bottomRight.style.transform = 'translate(' + x / 32 + 'px, ' + y / 22 + 'px)';
+      bottomLeft.style.transform = 'translate(' + (-x / 42) + 'px, ' + (-y / 42) + 'px)';
+      cloud.style.transform = 'translate(' + (-x / 62) + 'px, ' + (-y / 62) + 'px)';
+  
+      console.log('x: '+x+' y: '+y);
+  
+    }
+
+  } 
+</script>
+
+{% schema %}
+{
+  "name": "Hero",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "hero_background_desktop",
+      "label": "Background (Desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_background_mobile",
+      "label": "Background (Mobile)"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_cloud",
+      "label": "Cloud"
+    },
+    {
+      "type": "video",
+      "id": "hero_top_left",
+      "label": "Floating Video (Top Left)"
+    },
+    {
+      "type": "video",
+      "id": "hero_top_right",
+      "label": "Floating Video (Top Right)"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_bottom_left",
+      "label": "Floating Image (Bottom Left)"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_bottom_right",
+      "label": "Floating Image (Bottom Right)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,57 @@
+.about-component {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+
+    .about-wrapper {
+        display: grid;
+        grid-template-columns: 50% 1fr;
+        align-items: center;
+        width: 100%;
+        max-width: var(--thin);
+    }
+
+    .left {
+
+        font-size: 18px;
+
+        .about-title {
+            h2 {
+                font-size: 1rem;
+                font-family: inherit;
+                margin: 0 0 16px 0;
+            }
+        }
+    
+        .tagline {
+            span {
+                color: var(--red);
+                font-style: italic;
+            }
+        }
+    }
+
+
+    .right {
+        position: relative;
+
+        .featured-image img {
+            width: 100%;
+            max-width: 340px;
+        }
+    
+        .question-mark {
+            position: absolute;
+            float: left;
+            bottom: -10%;
+            right: -3%;
+    
+            img {
+                width: 100%;
+                max-width: 220px;
+            }
+        }
+    }
+
+}

@@ -1,0 +1,23 @@
+{
+    "name": "siberia-liquid",
+    "version": "1.0.0",
+    "description": "Shopify theme for Dais Records.",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "gulp": "^4.0.2",
+        "gulp-autoprefixer": "^8.0.0",
+        "gulp-clean-css": "^4.3.0",
+        "gulp-concat": "^2.6.1",
+        "gulp-minify": "^3.1.0"
+    },
+    "dependencies": {
+        "bandcamp-scraper": "^1.5.0",
+        "gulp-sass": "^5.1.0",
+        "sass": "^1.56.1"
+    }
+}

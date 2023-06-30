@@ -1,0 +1,178 @@
+{% comment %} 
+
+Collection Page
+
+{% endcomment %}
+<section class="shop-component">
+    <div class="shop-component-wrapper" data-layout="grid">
+    
+      {% render 'throne-grid-changer' %}
+      
+      <ul class="products grid">
+        {% if collection.products.size > 0 %}
+
+            {%- for product in collection.products -%}
+            <li class="item">
+                <div class="item-wrapper">
+    
+                {% comment %} IMAGE {% endcomment %}
+                <div class="product-image">
+                    {% for image in product.media limit: 1 %}
+                    <div class="image">
+                        <a href="{{ product.url }}" title="{{ product.title }}">
+                        <img src="{{ image | image_url: width: 700 }}" alt="{{ product.title }}" />
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+    
+                {% comment %} DATA {% endcomment %}
+                <div class="product-data">
+                    {% if product.compare_at_price > product.price %}
+                    <span class="sale-indicator">
+                        sale
+                    </span>
+                    {% endif %}
+                    <div class="product-data-wrapper">
+                    
+                    <div class="vendor">
+                        <a href="{{ product.url }}" title="{{ product.title }}">
+                        <span>{{ product.vendor }}</span>
+                        </a>
+                    </div>
+                    
+                    <div class="name">
+                        <a href="{{ product.url }}" title="{{ product.title }}">
+                        <h3>{{ product.title }}</h3>
+                        </a>
+                    </div>
+        
+                    <div class="price">
+                        <a href="{{ product.url }}" title="{{ product.title }}">
+                        <span>{{ product.price | money_without_trailing_zeros }}</span>
+                        </a>
+                    </div>
+    
+                    </div>
+                </div>
+    
+                </div>
+            </li>
+            {%- endfor -%}
+
+        {% else %}
+        
+            {% render 'no-products' %}
+
+        {% endif %}
+      </ul>
+  
+      <ul class="products list">
+        {% if collection.products.size > 0 %}
+
+            {%- for product in collection.products -%}
+    
+            <li>
+                <div class="list-item-wrapper">
+                
+                <div class="product-image">
+                    {% for image in product.media limit: 1 %}
+                    <div class="image">
+                        <a href="{{ product.url }}" title="{{ product.title }}">
+                        <img src="{{ image | image_url: width: 700 }}" alt="{{ product.title }}" />
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+    
+                <div class="titles">
+                    <div class="vendor">
+                    <a href="{{ product.url }}" title="{{ product.title }}">
+                        <span>{{ product.vendor }}</span>
+                    </a>
+                    </div>
+        
+                    <div class="name">
+                    <a href="{{ product.url }}" title="{{ product.title }}">
+                        <h3>{{ product.title }}</h3>
+                    </a>
+                    </div>
+                </div>
+    
+    
+                <div class="price">
+                    <a href="{{ product.url }}" title="Price">
+                    <span>{{ product.price | money_without_trailing_zeros }}</span>
+                    </a>
+                </div>
+    
+                <div class="indicator-holder">
+                    {% if product.compare_at_price > product.price %}
+                    <span class="sale-indicator">
+                        sale
+                    </span>
+                    {% endif %}
+                </div>
+    
+                <div class="colors">
+                    <div class="color-wrapper">
+                    
+                    
+                    {% comment %} 
+                    1{% for option in product.options_with_values %}
+                        {% case option.name %}
+    
+                        {% when 'Color' %}
+                            {% for value in option.values %}
+                            {% assign targOpt = value %}
+                            {{ targOpt | uniq }}
+                            {% endfor %}
+    
+                        {% endcase %}
+                    {% endfor %} {% endcomment %}
+    
+                    
+                    {% comment %} 
+                    2{% for fabric in shop.metaobjects.fabric_colors.values %}
+                        {% assign black = fabric.black %}
+                        <script>console.log({{ black }})</script>
+                    {% endfor %} {% endcomment %}
+    
+                    
+                    {% comment %}
+                        3 {% capture 'meta_data' %}
+                        {% for variant in product.variants.metafields.custom.display_color.values %}
+                        {{ variant | json }}
+                        {% unless forloop.last %},{% endunless %}
+                        {% endfor %}
+                    {% endcapture %} {% endcomment %}
+    
+                    {%- for option in product.options_with_values -%}
+    
+                        {% case option.name %}
+    
+                        {% when 'Color' %}
+                            {% for value in option.values %}
+                            <div class="color-swatch" style="background-color: {{ product.variants[forloop.index0].metafields.custom.display_color.value | uniq }}">&nbsp;</div>
+                            {% endfor %}
+                        
+                        {% endcase %}
+    
+                    {%- endfor -%}
+    
+                    </div>
+                </div>
+    
+                </div>
+            </li>
+            {% endfor %}
+
+        {% else %}
+        
+            {% render 'no-products' %}
+
+        {% endif %}
+      </ul>
+  
+    </div>
+  </section>

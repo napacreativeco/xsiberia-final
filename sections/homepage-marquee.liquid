@@ -1,0 +1,45 @@
+<div class="marquee-holder">
+  <div class="wrapper">
+    <div class="box">&nbsp;{{ section.settings.marquee_content }}</div>
+    <div class="box">&nbsp;{{ section.settings.marquee_content }}</div>
+    <div class="box">&nbsp;{{ section.settings.marquee_content }}</div>
+    <div class="box">&nbsp;{{ section.settings.marquee_content }}</div>
+    <div class="box">&nbsp;{{ section.settings.marquee_content }}</div>
+    <div class="box">&nbsp;{{ section.settings.marquee_content }}</div>
+    <div class="box">&nbsp;{{ section.settings.marquee_content }}</div>
+    <div class="box">&nbsp;{{ section.settings.marquee_content }}</div>
+    <div class="box">&nbsp;{{ section.settings.marquee_content }}</div>
+    <div class="box">&nbsp;{{ section.settings.marquee_content }}</div>
+    <div class="box">&nbsp;{{ section.settings.marquee_content }}</div>
+    <div class="box">&nbsp;{{ section.settings.marquee_content }}</div>
+  </div>
+</div>
+
+
+
+
+
+{% schema %}
+{
+  "name": "Marquee",
+  "tag": "div",
+  "class": "marquee-container",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "marquee_content",
+      "label": "Text",
+      "default": "our fabric is our honor let the last"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Marquee"
+    }
+  ]
+}
+{% endschema %}
+

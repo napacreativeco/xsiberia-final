@@ -1,0 +1,45 @@
+.size-chart {
+
+    .size-chart-title {
+        h3 {
+            font-size: 16px;
+            font-size: inherit;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+    }
+
+    .size-chart-table {
+
+        tr {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 20px;
+            margin: 0 0 10px 0;
+        }
+
+        th {
+            text-align: center;
+            font-size: 14px;
+            font-weight: normal;
+            width: 2rem;
+        }
+
+        td {
+            text-align: center;
+            font-size: 14px;
+            width: 2rem;
+            vertical-align: middle;
+        }
+
+        th.legend,
+        td.legend {
+            text-align: left;
+            margin-right: 22px;
+            vertical-align: middle;
+        }
+
+    }
+
+}

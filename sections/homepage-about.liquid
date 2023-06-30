@@ -1,0 +1,79 @@
+<section class="about-component page-component">
+  <div class="about-wrapper">
+
+    <div class="left">
+
+      <div class="about-title">
+        <h2>{{ section.settings.about_title }}</h2>
+      </div>
+  
+      <div class="tagline">
+        <span>{{ section.settings.about_tagline }}</span>
+      </div>
+  
+      <div class="content">
+        <p>{{ section.settings.about_body }}</p>
+      </div>
+
+    </div>
+
+    <div class="right">
+      <div class="featured-image">
+        <img src="{{ section.settings.about_featured_image | image_url }}" alt="" />
+      </div>
+      <div class="question-mark">
+        <img src="{{ section.settings.about_question_mark | image_url }}" alt="" />
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "About",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "about_featured_image",
+      "label": "Featured Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "about_question_mark",
+      "label": "Question Mark"
+    },
+    {
+        "type": "text",
+        "id": "about_title",
+        "label": "About Title"
+    },
+    {
+      "type": "text",
+      "id": "about_tagline",
+      "label": "Tagline",
+      "default": "based on a true story"
+    },
+    {
+      "type": "textarea",
+      "id": "about_body",
+      "label": "Body Text",
+      "default": "siberia hills is an idea created in the himalayas during soviet union era by daf of siberia III, six hundred thousand troops siberia hills is an idea created in the himalayas during soviet union era by daf siberia III, six hundred thousand troops siberia hills is an idea created in the himalayas during soviet union era by daf siberia III, six hundred thousand troops siberia hills is an idea created in the himalayas during soviet union era by daf siberia III, six hundred thousand troops"
+    }
+  ],
+  "presets": [
+    {
+      "name": "About",
+      "settings": {
+          "about_title": "about",
+          "about_tagline": "based on a true story"
+      }
+    }
+  ]
+}
+{% endschema %}

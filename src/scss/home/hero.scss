@@ -1,0 +1,288 @@
+@keyframes topLeftRounder {
+    0% { margin-left: 0%; margin-top: 0%; }
+    25% { margin-left: -5%; margin-top: 5%; }
+    50% { margin-left: 0%; margin-top: 10%; }
+    75% { margin-left: 5%; margin-top: 5%; }
+}
+
+@keyframes topRightRounder {
+    0% { margin-right: 0%; margin-top: 0%; }
+    25% { margin-right: -5%; margin-top: 5%; }
+    50% { margin-right: 0%; margin-top: 10%; }
+    75% { margin-right: 5%; margin-top: 5%; }
+}
+
+@keyframes bottomLeftRounder {
+    0% { margin-left: 0%; margin-bottom: 0%; }
+    25% { margin-left: -5%; margin-bottom: 5%; }
+    50% { margin-left: 0%; margin-bottom: 10%; }
+    75% { margin-left: 5%; margin-bottom: 5%; }
+}
+
+@keyframes bottomRightRounder {
+    0% { margin-right: 0%; margin-bottom: 0%; }
+    25% { margin-right: -5%; margin-bottom: 5%; }
+    50% { margin-right: 0%; margin-bottom: 10%; }
+    75% { margin-right: 5%; margin-bottom: 5%; }
+}
+
+@keyframes cloudRounder {
+    0% { margin-right: 0%; margin-top: 0%; }
+    25% { margin-right: -5%; margin-top: 5%; }
+    50% { margin-right: 0%; margin-top: 10%; }
+    75% { margin-right: 5%; margin-top: 5%; }
+}
+
+
+.homepage-hero {
+    width: calc(100% + 24px);
+    max-width: calc(100% + 24px);
+    margin-left: -12px;
+    margin-right: -12px;
+    height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    .hero-image-desktop { display: block; }
+    .hero-image-mobile { display: none; }
+
+    .hero-image {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+    }
+
+    .hero-image-desktop {
+        display: block;
+    }
+    .hero-image-mobile { display: none; }
+    .hero-wrapper {
+        width: 100%;
+        max-width: var(--thin);
+        display: grid;
+        grid-template-columns: 48% 1fr;
+        position: relative;
+        z-index: 1;
+
+        .left {
+            padding-left: var(--side-padding);
+
+            .hero-logo {
+                display: block;
+                margin-bottom: 140px;
+                img {   
+                    width: 300px;
+                    max-width: 100%;
+                }
+            }
+
+            ul {
+                display: flex;
+                flex-direction: column;
+                gap: 30px;
+
+                li {
+                    width: 100%;
+                }
+            }
+
+            .hero-link {
+                font-size: 24px;
+                cursor: pointer;
+                text-transform: lowercase;
+            }
+
+            .hero-link:hover {
+                font-weight: bold;
+                text-decoration: underline;
+            }
+
+        }
+
+        .right {
+            padding-right: var(--side-padding);
+            position: relative;
+
+            .cloud-holder {
+                position: absolute;
+                z-index: 8;
+                max-width: 450px;
+                video {
+                    width: 50vw;
+                    max-width: 475px;
+                }
+                img {
+                    width: 100%;
+                }
+            }
+
+            .floating-media {
+                position: absolute;
+                object-fit: cover;
+                transition: 0.2s ease-out;
+            }
+
+            .top-left {
+                top: -14%;
+                left: 0px;
+                z-index: 3;
+                max-width: 260px;
+                video {
+                    width: 100%;
+                }
+            }
+
+
+            .top-right {
+                top: -40%;
+                right: 30px;
+                max-width: 240px;
+                z-index: 4;
+                
+                video {
+                    width: 100%;
+                }
+            }
+
+            .bottom-left {
+                bottom: -40%;
+                left: 20%;
+                max-width: 180px;
+                z-index: 2;
+
+                img {
+                    width: 100%;
+                    max-height: 50vh;
+                }
+            }
+
+            .bottom-right {
+                bottom: -30%;
+                right: 20%;
+                max-width: 160px;
+                z-index: 2;
+
+                img {
+                    width: 100%;
+                    max-height: 40vh;
+                }
+            }
+        }
+
+    }
+}
+
+@media screen and (max-width: 767px) {
+    
+
+
+    .logo {
+        display: block;
+        opacity: 1;
+    }
+
+    .homepage-hero {
+
+        height: 100dvh;
+
+        .hero-image-desktop {
+            display: none;
+        }
+        .hero-image-mobile { display: block; }
+
+        .hero-wrapper {
+            display: flex;
+            flex-direction: column-reverse;
+            height: 100%;
+    
+            .left, .right {
+                width: 100%;
+            }
+
+
+            .left {
+                height: 50vh;
+                display: flex;
+                align-items: flex-end;
+                padding: 0 10px 60px 10px;
+
+                .hero-logo {
+                    display: block;
+                    margin-bottom: 80px;
+                    display: none;
+                    img {   
+                        width: 220px;
+                        max-width: 100%;
+                    }
+                }
+            }
+
+            .right {
+                position: relative;
+                height: 50vh;
+
+                .cloud-holder {
+                    top: 50%;
+                    transform: translateY(-50%);
+                    left: 20%;
+
+                    img {
+                        width: 100%;
+                    }
+                }
+                #top-left {
+                    top: 90px;
+                    left: 20px;
+                    max-width: 170px;
+                    animation: topLeftRounder 4s linear infinite;
+                }
+                #top-right {
+                    top: 120px;
+                    max-width: 190px;
+                    animation: topRightRounder 5s linear infinite;
+                }
+
+                #bottom-left {
+                    bottom: -50px;
+                    left: 20%;
+                    max-width: 180px;
+                    animation: bottomLeftRounder 4s infinite linear;
+                    z-index: 2;
+                }
+
+                #bottom-right {
+                    animation: bottomRightRounder 5s infinite linear;
+                }
+
+                #cloud {
+                    animation: cloudRounder 5s infinite linear;
+                }
+            }
+        }
+    }
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

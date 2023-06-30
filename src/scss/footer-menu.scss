@@ -1,0 +1,162 @@
+.footer-menu {
+    position: fixed;
+    z-index: 8;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    pointer-events: none;
+    opacity: 1;
+
+    .footer-menu-wrapper {
+        width: 100%;
+        max-width: var(--thin);
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 20px;
+        position: relative;
+
+        .filter-menu {
+            background: var(--white);
+            border: var(--border-blk);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 99;
+            pointer-events: all;
+            transform: translateX(1000px);
+
+            .top {
+                border-bottom: var(--border-blk);
+                width: 100%;
+
+                ul {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-around;
+                    gap: 10px;
+                    padding: 10px;
+
+                    li {
+                        padding: 10px;
+
+                        a {
+                            font-size: 12px;
+                            text-decoration: none;
+                            padding: 8px;
+                        }
+        
+                        a:hover {
+                            background: var(--black);
+                            color: var(--red);
+                        }
+
+                    }
+
+                }
+            }
+            .filters::-webkit-scrollbar {
+                display: none;
+            }
+
+            .filters {
+                width: 100%;
+                overflow-y: scroll;
+                max-height: 30vh;
+                -ms-overflow-style: none;  /* IE and Edge */
+                scrollbar-width: none;  /* Firefox */
+
+                ul {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0px;
+                    counter-reset: filters;
+                    counter-reset: zilters 10;
+
+                    li {
+                        width: 100%;
+                        border-bottom: var(--border-blk);
+                        padding: 20px;
+                        counter-increment: filters;
+
+                        a {
+                            text-decoration: none;
+                            text-transform: lowercase;
+                        }
+
+                        a::before {
+                            content: counter(filters) ' - ';
+                        }
+
+         
+                    }
+                    li:nth-child(-n+9) {
+                        a::before {
+                            content: '0' counter(filters) ' - ';
+                        }
+                    }
+
+                    li:last-of-type {
+                        border-bottom: 0px;
+                    }
+
+                    li:hover {
+                        background: var(--black);
+                        color: var(--red);
+                    }
+                }
+            }
+
+            .bottom {
+                width: 100%;
+                border-top: var(--border-blk);
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                gap: 20px;
+                padding: 10px;
+                
+                a {
+                    font-size: 12px;
+                    text-decoration: none;
+                }
+
+                a:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+        
+        .plus {
+            pointer-events: all;
+            cursor: pointer;
+        }
+    }
+
+}
+
+@media screen and (max-width: 767px) {
+
+    .footer-menu .footer-menu-wrapper .filter-menu {
+        max-width: calc(100% - 40px);
+        margin-right: 20px;
+    }
+
+    .footer-menu .footer-menu-wrapper .filter-menu .top  {
+        // padding: 0 20px;
+        ul {
+            justify-content: flex-start;
+            overflow-x: scroll;
+            max-width: calc(100% - 20px);
+        }
+    }
+
+    .footer-menu .footer-menu-wrapper .plus {
+        padding-right: 20px;
+    }
+}
